@@ -1,24 +1,23 @@
 package su.jfdev.codegen
 
+import su.jfdev.codegen.generators.*
 import java.io.*
 
-class Pack(val code: File) {
-    val name = code.nameWithoutExtension
+class Pack(val source: Source,
+           val resource: File,
+           val name: String = resource.nameWithoutExtension,
+           val set: String = (resource.parentFile - source.input).path.substringBefore("/").substringBefore("\\"),
+           val pack: File = resource.parentFile - File(source.input, set),
+           val output: File = source.output + set + "codegen" + pack.path,
+           val `package`: String = pack.path.replace('/', '.').replace('\\', '.')
+          ) {
 
-    val set = (code.parentFile - Def.input).path.substringBefore("/").substringBefore("\\")
-    val pack = code.parentFile - File(Def.input, set)
-    val output = Def.output + set + "codegen" + pack.path
+    fun gen(prefix: String = "", postfix: String = "", configuration: Configuration) = Gen(configuration = configuration,
+                                                                 pack = this,
+                                                                 name = prefix + name.capitalize() + postfix)
 
-
-    init {
-        println("set = $set")
-        println("output = $output")
-        println("pack = $pack")
+    companion object {
+        private operator fun File.plus(name: String) = File(this, name)
+        private operator fun File.minus(file: File) = relativeTo(file)
     }
-
-    private val _package = pack.path.replace('/', '.').replace('\\', '.')
-    override fun toString() = _package
-
-    private operator fun File.plus(name: String) = File(this, name)
-    private operator fun File.minus(file: File) = relativeTo(file)
 }

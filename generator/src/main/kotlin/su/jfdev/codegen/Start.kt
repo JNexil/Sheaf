@@ -1,18 +1,21 @@
 package su.jfdev.codegen
 
 import su.jfdev.codegen.generators.*
-import java.io.*
 import java.nio.file.*
 
-fun main(args: Array<String>) {
-    Files.walk(Def.input.toPath()).parallel().forEach {
-        gen(it.toFile())
+fun main(args: Array<String>) = Source(project = args[0].toString(), extension = args[1].toString()).fill()
+
+fun Source.fill() = walkPacks {
+    for (type in Source.primitives.keys) {
+        Generator.util(resource = resource).generate(
+                gen(prefix = type.capitalize(), configuration = Configuration.primitive(type))
+                                                    )
     }
 }
 
-private fun gen(file: File) {
-    if (file.isFile && file.extension == Def.extension) {
-        val pack = Pack(file)
-        for (type in Def.primitives.keys) PrimCodeGen(pack, type).generate()
+fun Source.walkPacks(action: Pack.() -> Unit) {
+    Files.walk(input.toPath()).parallel().forEach {
+        val file = it.toFile()
+        if (file.isFile && file.extension == extension) Pack(this, file).action()
     }
 }
