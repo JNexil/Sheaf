@@ -6,5 +6,5 @@ Aim: Centralize all collection types to this lib:
 
 Done:
 - ReadOnly wrappers (without tests)
-- Kotlin iterators for primitive wrappers
+- Kotlin iterators for primitives (but it wrap eclipse iterator)
 - Kotlin-likely inline functions (not all)

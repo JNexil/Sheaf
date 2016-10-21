@@ -1,6 +1,7 @@
 import org.eclipse.collections.api.iterator.#PRIM#Iterator
 import org.eclipse.collections.api.iterator.Mutable#PRIM#Iterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_#PRIM#
+import kotlin.collections.#PRIM#Iterator as KtIterator
 import java.util.*
 
 inline fun #PRIM#Iterator.all(crossinline condition: (#PRIM#) -> Boolean) = none { !condition(it) }
@@ -104,12 +105,7 @@ inline infix fun #PRIM#Iterator.iterate(procedure: (#PRIM#) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun Mutable#PRIM#Iterator.iterator() = object: MutableIterator<#PRIM#> {
-    override fun next(): #PRIM# = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun #PRIM#Iterator.iterator() = object: Iterator<#PRIM#> {
-    override fun next(): #PRIM# = this@iterator.next()
+operator fun #PRIM#Iterator.iterator(): KtIterator = object: KtIterator() {
+    override fun next#PRIM#() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

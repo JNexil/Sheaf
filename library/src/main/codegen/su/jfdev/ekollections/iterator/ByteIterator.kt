@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.ByteIterator
 import org.eclipse.collections.api.iterator.MutableByteIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Byte
+import kotlin.collections.ByteIterator as KtIterator
 import java.util.*
 
 inline fun ByteIterator.all(crossinline condition: (Byte) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun ByteIterator.iterate(procedure: (Byte) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableByteIterator.iterator() = object: MutableIterator<Byte> {
-    override fun next(): Byte = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun ByteIterator.iterator() = object: Iterator<Byte> {
-    override fun next(): Byte = this@iterator.next()
+operator fun ByteIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextByte() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

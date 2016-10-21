@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.IntIterator
 import org.eclipse.collections.api.iterator.MutableIntIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Int
+import kotlin.collections.IntIterator as KtIterator
 import java.util.*
 
 inline fun IntIterator.all(crossinline condition: (Int) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun IntIterator.iterate(procedure: (Int) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableIntIterator.iterator() = object: MutableIterator<Int> {
-    override fun next(): Int = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun IntIterator.iterator() = object: Iterator<Int> {
-    override fun next(): Int = this@iterator.next()
+operator fun IntIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextInt() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.CharIterator
 import org.eclipse.collections.api.iterator.MutableCharIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Char
+import kotlin.collections.CharIterator as KtIterator
 import java.util.*
 
 inline fun CharIterator.all(crossinline condition: (Char) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun CharIterator.iterate(procedure: (Char) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableCharIterator.iterator() = object: MutableIterator<Char> {
-    override fun next(): Char = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun CharIterator.iterator() = object: Iterator<Char> {
-    override fun next(): Char = this@iterator.next()
+operator fun CharIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextChar() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

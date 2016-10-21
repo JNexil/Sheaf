@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.LongIterator
 import org.eclipse.collections.api.iterator.MutableLongIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Long
+import kotlin.collections.LongIterator as KtIterator
 import java.util.*
 
 inline fun LongIterator.all(crossinline condition: (Long) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun LongIterator.iterate(procedure: (Long) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableLongIterator.iterator() = object: MutableIterator<Long> {
-    override fun next(): Long = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun LongIterator.iterator() = object: Iterator<Long> {
-    override fun next(): Long = this@iterator.next()
+operator fun LongIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextLong() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

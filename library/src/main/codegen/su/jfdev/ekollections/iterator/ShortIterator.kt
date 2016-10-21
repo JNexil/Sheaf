@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.ShortIterator
 import org.eclipse.collections.api.iterator.MutableShortIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Short
+import kotlin.collections.ShortIterator as KtIterator
 import java.util.*
 
 inline fun ShortIterator.all(crossinline condition: (Short) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun ShortIterator.iterate(procedure: (Short) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableShortIterator.iterator() = object: MutableIterator<Short> {
-    override fun next(): Short = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun ShortIterator.iterator() = object: Iterator<Short> {
-    override fun next(): Short = this@iterator.next()
+operator fun ShortIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextShort() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

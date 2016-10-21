@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.FloatIterator
 import org.eclipse.collections.api.iterator.MutableFloatIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Float
+import kotlin.collections.FloatIterator as KtIterator
 import java.util.*
 
 inline fun FloatIterator.all(crossinline condition: (Float) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun FloatIterator.iterate(procedure: (Float) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableFloatIterator.iterator() = object: MutableIterator<Float> {
-    override fun next(): Float = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun FloatIterator.iterator() = object: Iterator<Float> {
-    override fun next(): Float = this@iterator.next()
+operator fun FloatIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextFloat() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }

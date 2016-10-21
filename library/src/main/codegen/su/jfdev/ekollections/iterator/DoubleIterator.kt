@@ -7,6 +7,7 @@ package su.jfdev.ekollections.iterator
 import org.eclipse.collections.api.iterator.DoubleIterator
 import org.eclipse.collections.api.iterator.MutableDoubleIterator
 import su.jfdev.ekollections.util.NullPrimitives.NULL_Double
+import kotlin.collections.DoubleIterator as KtIterator
 import java.util.*
 
 inline fun DoubleIterator.all(crossinline condition: (Double) -> Boolean) = none { !condition(it) }
@@ -110,12 +111,7 @@ inline infix fun DoubleIterator.iterate(procedure: (Double) -> Unit) {
     while (hasNext()) procedure(next())
 }
 
-operator fun MutableDoubleIterator.iterator() = object: MutableIterator<Double> {
-    override fun next(): Double = this@iterator.next()
-    override fun hasNext(): Boolean = this@iterator.hasNext()
-    override fun remove() = this@iterator.remove()
-}
-operator fun DoubleIterator.iterator() = object: Iterator<Double> {
-    override fun next(): Double = this@iterator.next()
+operator fun DoubleIterator.iterator(): KtIterator = object: KtIterator() {
+    override fun nextDouble() = this@iterator.next()
     override fun hasNext(): Boolean = this@iterator.hasNext()
 }
