@@ -1,5 +1,7 @@
 # Sheaf
-Aim: Centralize all collection types to this lib:
+Aim: Centralize collection types to this lib
+
+Target
 - Bag
 - BiMap
 - Primitives
