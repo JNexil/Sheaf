@@ -1,13 +1,11 @@
 buildscript {
     apply from: "dependencies.gradle"
     repositories {
-//        mavenLocal()
-//        mavenCentral()
-//        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
     }
     dependencies {
         classpath lib.kotlin["gradle"]
+        classpath lib.junit["plugin"]
     }
 }
 
@@ -29,11 +27,18 @@ project(":generator"){
 }
 
 project(":library"){
+    apply from: "../spek.gradle"
     version "0.1.0"
+    repositories {
+        maven { url  "http://dl.bintray.com/anci/maven" }
+    }
+
     dependencies {
         compile lib.ecollections["api"]
         compile lib.ecollections["fjoin"]
         compile lib.ecollections["impl"]
+
+        testCompile String.format(lib.anci["test"].toString(), "main")
     }
 
     sourceSets.main.java.srcDirs += "src/main/codegen"
