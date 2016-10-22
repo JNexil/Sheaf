@@ -7,10 +7,10 @@ Target
 - Primitives
 
 Done:
-- ReadOnly wrappers (without tests)
+- ReadOnly wrappers
 - Kotlin iterators for primitives (but it wrap eclipse iterator)
 - Kotlin-likely inline functions (not all)
 
 I want:
-- ReadOnly tests
+- ReadOnly entries set and entries iterator immutability checking
 - Inline functions tests
