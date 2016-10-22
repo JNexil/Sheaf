@@ -7,9 +7,9 @@ fun main(args: Array<String>) = Source(project = args[0].toString(), extension =
 
 fun Source.fill() = walkPacks {
     for (type in Source.primitives.keys) {
-        Generator.util(resource = resource).generate(
+        Generators.util(resource = resource).generate(
                 gen(prefix = type.capitalize(), configuration = Configuration.primitive(type))
-                                                    )
+                                                     )
     }
 }
 

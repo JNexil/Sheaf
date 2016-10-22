@@ -13,7 +13,7 @@ abstract class Generator {
         private val pack = gen.pack
         private val cfg = gen.configuration
         private val writer = File(pack.output, gen.name + gen.configuration.extension).run {
-            if(!exists()){
+            if (!exists()) {
                 parentFile.mkdirs()
                 createNewFile()
             }
@@ -27,6 +27,7 @@ abstract class Generator {
             file(name)
             annotation("""JvmMultifileClass""")
         }
+
         fun suppress(vararg types: String) = annotation("Suppress(${packSuppress(types)})")
         private fun packSuppress(types: Array<out String>) = types.map { """"$it"""" }.joinToString()
 
@@ -44,28 +45,27 @@ abstract class Generator {
         }
 
         private fun String.transform(): String = when {
-            isNotEmpty() -> {
-                var result = this
-                if (isNotEmpty()) for ((from, to) in cfg.replacements) {
-                    result = result.replace(from, to)
-                }
-                result
-            }
+            isNotEmpty() -> multiReplace()
             else         -> this
+        }
+
+        private fun String.multiReplace(): String {
+            var result: String = this
+            while (true) result = result.replace() ?: return result
+        }
+
+        private fun String.replace(): String? {
+            var result = this
+            var hasEffect: Boolean = false
+            for ((from, to) in cfg.replacements) if (from in result) {
+                hasEffect = true
+                result = result.replace(from, to)
+            }
+            return if (hasEffect) result else null
         }
     }
 
     companion object {
-        fun util(resource: File) = util { resource.readText() }
-        fun util(resource: () -> String) = Generator {
-            multifile(it.pack.name + "Util")
-            suppress("NOTHING_TO_INLINE")
-            _package()
-            author()
-            +""
-            +resource()
-        }
-
         operator fun invoke(gen: CodeWriter.(Gen) -> Unit) = object: Generator() {
             override fun CodeWriter.write(gen: Gen) {
                 gen(gen)
