@@ -20,12 +20,19 @@ fun <T> ListIterator<T>.readOnly() = readOnly { ROListIterator(it) }
 fun <T> Iterable<T>.readOnly() = readOnly { ROIterable(it) }
 fun <T> Collection<T>.readOnly() = readOnly { ROCollection(it) }
 fun <T> Set<T>.readOnly() = readOnly { ROSet(it) }
-fun <T> List<T>.readOnly() = when (this) {
+fun <T> List<T>.readOnly() = readOnlyList()
+
+fun <K, V> Map<K, V>.readOnlyMap() = readOnly { ROMap(it) }
+fun <T> Iterator<T>.readOnlyIterable() = readOnly { ROIterator(it) }
+fun <T> ListIterator<T>.readOnlyListIterator() = readOnly { ROListIterator(it) }
+fun <T> Iterable<T>.readOnlyIterable() = readOnly { ROIterable(it) }
+fun <T> Collection<T>.readOnlyCollection() = readOnly { ROCollection(it) }
+fun <T> Set<T>.readOnlySet() = readOnly { ROSet(it) }
+fun <T> List<T>.readOnlyList() = when (this) {
     is RORandomList, is ROList -> this
     is RandomAccess            -> RORandomList(this)
     else                       -> ROList(this)
 }
-
 
 private inline fun <F, reified RO: ReadOnly> F.readOnly(factory: (F) -> RO): RO = when (this) {
     is RO -> this
