@@ -13,4 +13,3 @@ Done:
 
 I want:
 - ReadOnly entries set and entries iterator immutability checking
-- Inline functions tests
