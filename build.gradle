@@ -6,10 +6,14 @@ buildscript {
     dependencies {
         classpath lib.kotlin["gradle"]
         classpath lib.junit["plugin"]
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${versions.dokka}"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.2'
+        classpath 'com.netflix.nebula:nebula-publishing-plugin:4.9.1'
     }
 }
 
 subprojects {
+    group 'su.jfdev.sheaf'
     version "0.1.0"
     apply plugin: "kotlin"
     repositories {
@@ -37,5 +41,42 @@ project(":templates") {
 }
 
 project(":library") {
+    apply plugin: 'nebula.source-jar'
+    apply plugin: 'nebula.javadoc-jar'
+    apply plugin: 'com.jfrog.bintray'
+    apply plugin: "maven-publish"
     apply from: "../library.gradle"
+
+    bintray {
+        user = property("binuser")
+        key = property("binkey")
+        publish = true
+        override = true
+        publications = ["nebula"]
+        pkg {
+            userOrg = "jamefrus"
+            repo = 'maven'
+            name = "sheaf-kt"
+            licenses = ['MIT']
+
+            vcsUrl = 'https://github.com/jamefrus/Sheaf.git'
+            websiteUrl = 'https://github.com/jamefrus/Sheaf'
+            issueTrackerUrl = 'https://github.com/jamefrus/Sheaf/issues'
+
+            githubRepo = 'anrelic/Anci-OSS'
+
+            version {
+                released = new Date()
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            nebula(MavenPublication) {
+                from components.java
+                artifactId "sheaf-kt"
+            }
+        }
+    }
 }
