@@ -29,23 +29,13 @@ project(":generator") {
 }
 
 project(":templates") {
+    apply from: "../library.gradle"
+
     dependencies {
-        compile lib.ecollections["api"]
         compile project(":library")
     }
-
-    sourceSets.main.java.srcDirs += "src/main/codegen"
 }
 
 project(":library") {
-    apply from: "../spek.gradle"
-    dependencies {
-        compile lib.ecollections["api"]
-        compile lib.ecollections["fjoin"]
-        compile lib.ecollections["impl"]
-
-        testCompile lib["anci-test"]
-    }
-
-    sourceSets.main.java.srcDirs += "src/main/codegen"
+    apply from: "../library.gradle"
 }

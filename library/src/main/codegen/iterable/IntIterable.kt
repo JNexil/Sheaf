@@ -1,6 +1,8 @@
 @file:Suppress("PackageDirectoryMismatch", "unused", "NOTHING_TO_INLINE")
 @file:JvmMultifileClass
 @file:JvmName("PrimitiveIterableUtil")
+
+//define temp=su.jfdev.ekollections
 package su.jfdev.ekollections.iterable
 
 //define Short=#PRIM#
@@ -10,6 +12,7 @@ import org.eclipse.collections.api.*
 import su.jfdev.ekollections.iterator.*
 
 inline operator fun IntIterable.iterator() = intIterator().iterator()
+inline operator fun IntIterable.contains(other: Int): Boolean = contains(other)
 inline operator fun IntIterable.contains(other: IntIterable): Boolean = containsAll(other)
 
 inline infix fun IntIterable.iterate(procedure: (Int) -> Unit) = intIterator().iterate(procedure)

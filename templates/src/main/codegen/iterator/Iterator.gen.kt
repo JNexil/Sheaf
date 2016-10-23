@@ -2,13 +2,14 @@
 @file:JvmMultifileClass
 @file:JvmName("PrimitiveIteratorUtil")
 
-package su.jfdev.ekollections.iterator
+//define temp=su.jfdev.ekollections
+package temp.iterator
 
 //define Short=#PRIM#
 //define short=#prim#
 
 import org.eclipse.collections.api.iterator.ShortIterator
-import su.jfdev.ekollections.util.NullPrimitives.NULL_Short
+import su.jfdev.ekollections.util.Primitives.NULL_Short
 import java.util.*
 import kotlin.collections.ShortIterator as KtIterator
 

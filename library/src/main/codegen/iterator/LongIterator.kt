@@ -1,13 +1,15 @@
 @file:Suppress("PackageDirectoryMismatch", "unused")
 @file:JvmMultifileClass
 @file:JvmName("PrimitiveIteratorUtil")
+
+//define temp=su.jfdev.ekollections
 package su.jfdev.ekollections.iterator
 
 //define Short=#PRIM#
 //define short=#prim#
 
 import org.eclipse.collections.api.iterator.LongIterator
-import su.jfdev.ekollections.util.NullPrimitives.NULL_Long
+import su.jfdev.ekollections.util.Primitives.NULL_Long
 import java.util.*
 import kotlin.collections.LongIterator as KtIterator
 

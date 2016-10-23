@@ -2,6 +2,7 @@
 @file:JvmMultifileClass
 @file:JvmName("PrimitiveIterableUtil")
 
+//define temp=su.jfdev.ekollections
 package su.jfdev.ekollections.iterable
 
 //define Short=#PRIM#
@@ -11,6 +12,7 @@ import org.eclipse.collections.api.*
 import su.jfdev.ekollections.iterator.*
 
 inline operator fun ShortIterable.iterator() = shortIterator().iterator()
+inline operator fun ShortIterable.contains(other: Short): Boolean = contains(other)
 inline operator fun ShortIterable.contains(other: ShortIterable): Boolean = containsAll(other)
 
 inline infix fun ShortIterable.iterate(procedure: (Short) -> Unit) = shortIterator().iterate(procedure)

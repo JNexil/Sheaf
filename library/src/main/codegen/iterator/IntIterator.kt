@@ -1,13 +1,15 @@
 @file:Suppress("PackageDirectoryMismatch", "unused")
 @file:JvmMultifileClass
 @file:JvmName("PrimitiveIteratorUtil")
+
+//define temp=su.jfdev.ekollections
 package su.jfdev.ekollections.iterator
 
 //define Short=#PRIM#
 //define short=#prim#
 
 import org.eclipse.collections.api.iterator.IntIterator
-import su.jfdev.ekollections.util.NullPrimitives.NULL_Int
+import su.jfdev.ekollections.util.Primitives.NULL_Int
 import java.util.*
 import kotlin.collections.IntIterator as KtIterator
 
