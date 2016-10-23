@@ -10,9 +10,11 @@ buildscript {
 }
 
 subprojects {
+    version "0.1.0"
     apply plugin: "kotlin"
     repositories {
         jcenter()
+        maven { url "http://dl.bintray.com/anci/maven" }
     }
 
     dependencies {
@@ -20,25 +22,29 @@ subprojects {
     }
 }
 
-project(":generator"){
+project(":generator") {
     dependencies {
         compile lib["guava"]
     }
 }
 
-project(":library"){
-    apply from: "../spek.gradle"
-    version "0.1.0"
-    repositories {
-        maven { url  "http://dl.bintray.com/anci/maven" }
+project(":templates") {
+    dependencies {
+        compile lib.ecollections["api"]
+        compile project(":library")
     }
 
+    sourceSets.main.java.srcDirs += "src/main/codegen"
+}
+
+project(":library") {
+    apply from: "../spek.gradle"
     dependencies {
         compile lib.ecollections["api"]
         compile lib.ecollections["fjoin"]
         compile lib.ecollections["impl"]
 
-        testCompile String.format(lib.anci["test"].toString(), "main")
+        testCompile lib["anci-test"]
     }
 
     sourceSets.main.java.srcDirs += "src/main/codegen"

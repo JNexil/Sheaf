@@ -14,7 +14,7 @@ abstract class Generator {
         private val pack = gen.pack
         private val cfg = gen.configuration
         private val replacements = cfg.replacements.toMap(HashMap())
-        private val ignore = ArrayList<String>()
+        private val ignore = ArrayList<String>(3)
         private val writer = File(pack.output, gen.name + gen.configuration.extension).run {
             if (!exists()) {
                 parentFile.mkdirs()
@@ -74,7 +74,8 @@ abstract class Generator {
         private fun String.replace(): String? {
             var result = this
             var hasEffect: Boolean = false
-            for ((from, to) in cfg.replacements) if (from !in ignore && from in result) {
+            for ((from, to) in replacements) if (from !in ignore && from in result) {
+                ignore += from
                 hasEffect = true
                 result = result.replace(from, to)
             }

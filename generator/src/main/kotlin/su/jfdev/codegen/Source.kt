@@ -3,10 +3,17 @@ package su.jfdev.codegen
 import java.io.*
 
 class Source(val project: String,
-             val extension: String = "tkt") {
+             val extension: String = ".gen.kt",
+             `in`: String = "templates/src",
+             `out`: String = "library/src") {
+    val output: File
+    val input: File
 
-    val output = File(project, """library\src""")
-    val input = File(project, """generator\src\main\resources""")
+    init {
+        val project = File(project)
+        output = File(project, `out`).relativeTo(project)
+        input = File(project, `in`).relativeTo(project)
+    }
 
     companion object {
         val primitives = mapOf("int" to mapOf("#PRIM#" to "Int",
