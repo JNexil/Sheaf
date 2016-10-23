@@ -1,6 +1,7 @@
 package su.jfdev.codegen.generators
 
 import java.io.*
+import java.util.*
 
 abstract class Generator {
     fun generate(gen: Gen) = CodeWriter(gen).use {
@@ -12,6 +13,7 @@ abstract class Generator {
     inner class CodeWriter(gen: Gen): Closeable {
         private val pack = gen.pack
         private val cfg = gen.configuration
+        private val replacements = cfg.replacements.toMap(HashMap())
         private val writer = File(pack.output, gen.name + gen.configuration.extension).run {
             if (!exists()) {
                 parentFile.mkdirs()
@@ -45,8 +47,20 @@ abstract class Generator {
         }
 
         private fun String.transform(): String = when {
-            isNotEmpty() -> multiReplace()
-            else         -> this
+            startsWith(DEFINE)   -> apply { define() }
+            startsWith(UNDEFINE) -> apply { undefine() }
+            isNotEmpty()         -> multiReplace()
+            else                 -> this
+        }
+
+        private fun String.define() {
+            val pair = substringAfter(DEFINE).trim()
+            replacements += Pair(first = pair.substringBefore("="), second = pair.substringAfter("="))
+        }
+
+        private fun String.undefine() {
+            val target = substringAfter(UNDEFINE).trim()
+            replacements.remove(target)
         }
 
         private fun String.multiReplace(): String {
@@ -66,6 +80,8 @@ abstract class Generator {
     }
 
     companion object {
+        private const val DEFINE = "//define "
+        private const val UNDEFINE = "//undefine "
         operator fun invoke(gen: CodeWriter.(Gen) -> Unit) = object: Generator() {
             override fun CodeWriter.write(gen: Gen) {
                 gen(gen)
