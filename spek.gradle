@@ -6,8 +6,13 @@ junitPlatform {
     }
 }
 
+lib.spekCompile = [lib.spek["api"],
+                   lib.spek["expekt"],
+                   lib["anci-test"],
+                   lib["mockito"],
+                   lib.junit["platform"]]
+
 dependencies {
-    testCompile lib.spek["api"], lib.spek["expekt"]
-    testCompile lib.junit["platform"]
+    testCompile lib["spekCompile"]
     testRuntime lib.spek["junit"]
 }

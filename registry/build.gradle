@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://dl.bintray.com/jamefrus/maven"
+        }
+    }
+    dependencies {
+        classpath "su.jfdev.gradle.struct:gradle-struct:1.6.0"
+    }
+}
+
+apply plugin: "su.jfdev.struct"
+apply from: "../spek.gradle"
+
+implementations {
+    spec
+}
+
+dependencies {
+    specCompile lib["spekCompile"]
+    apiCompile project(":library")
+}
+require {
+    external(lib.anci["service"]) {
+        source "main", "api"
+    }
+}

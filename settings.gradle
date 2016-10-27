@@ -1,1 +1,1 @@
-include 'library', 'generator', 'templates'
+include 'library', 'generator', 'templates', "registry"
